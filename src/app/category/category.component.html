@@ -1,0 +1,76 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-10 bg-secondary-theme p-5 card-shadow">
+      <h3 class="text-center">New Categories</h3>
+      <p class="text-center mb-5">You can add new categories from here</p>
+      <form class="text-center d-flex flex-column align-items-center" [formGroup]="categoryForm"
+            (ngSubmit)="onButtonClick()">
+        <div class="row">
+          <div class="col-md-8">
+            <div class="input-group input-group-lg">
+              <input type="text"
+                     formControlName="category"
+                     class="form-control card-shadow"
+                     placeholder="Enter something"
+                     size="70">
+            </div>
+            <div class="text-danger" *ngIf="categoryForm.get('category')?.touched && categoryForm.get('category')?.hasError('required')">
+              Category is required!
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="input-group input-group-lg">
+              <div class="input-group-append">
+                <button class="btn btn-lg btn-info bg-theme text-white btn-sub" type="submit"
+                        [disabled]="categoryForm.invalid">
+                  {{ isEditMode ? 'Update' : 'Submit' }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      <!-- Display success message -->
+      <div *ngIf="successMessage" class="alert alert-success mt-3">
+        {{ successMessage }}
+      </div>
+    </div>
+  </div>
+  <div class="row justify-content-center mt-5">
+    <div class="col-md-10 bg-secondary-theme p-5 card-shadow">
+      <h3 class="text-center">Category List</h3>
+
+      <div class="mt-4">
+        <h5 class="text-center mb-3">Category List</h5>
+
+        <table class="table table-bordered">
+          <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+          </tr>
+          </thead>
+          <tbody>
+
+          <tr *ngFor="let category of categories; let i = index;">
+            <th scope="row">{{ i + 1 }}</th>
+            <td>{{ category.name }}</td>
+            <td>
+              <button class="btn btn-warning btn-sm" (click)="editCategory(category)">
+                <i class="fas fa-edit"></i>
+              </button>
+            </td>
+            <td>
+              <button class="btn btn-danger btn-sm" (click)="deleteCategory(category)">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

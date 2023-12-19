@@ -1,0 +1,110 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <h3 class="text-theme-primary">Add New PostModel</h3>
+      <p class="mb-5">You Can Add Your PostModel Here</p>
+    </div>
+  </div>
+  <form [formGroup]="postForm">
+    <div class="row">
+      <div class="col-md-7">
+        <div class="card card-shadow">
+          <div class="card-body">
+            <div class="form-group">
+              <label>Title</label>
+              <input type="text" class="form-control"
+                     (keyup)="onTitleChanged($event)"
+                     formControlName="title"
+                     [ngClass]="{'is-valid': formControl['title'].touched && formControl['title'].valid, 'is-invalid': formControl['title'].touched && formControl['title'].invalid}">
+
+              <div *ngIf="formControl['title'].errors?.['required'] && formControl['title'].touched">
+                <div class="alert alert-danger">
+                  Title is required
+                </div>
+              </div>
+
+              <div *ngIf="formControl['title'].errors?.['minlength']">
+                <div class="alert alert-danger">
+                  Title should be longer than 10 characters
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Permalink</label>
+              <input type="text" class="form-control" name="permalink" formControlName="permalink">
+
+              <div *ngIf="formControl['permalink'].errors?.['required']">
+                <div class="alert alert-danger"
+                     *ngIf="formControl['permalink'].touched && formControl['permalink'].invalid">Permalink is required
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Excerpt</label>
+              <textarea cols="30" rows="10" class="form-control" formControlName="excerpt"></textarea>
+              <div *ngIf="formControl['excerpt'].errors?.['required'] && formControl['excerpt'].touched">
+                <div class="alert alert-danger">
+                  Excerpt is required
+                </div>
+              </div>
+              <div *ngIf="formControl['excerpt'].errors?.['minlength'] && formControl['excerpt'].touched">
+                <div class="alert alert-danger">
+                  Excerpt should be at least 50 characters long
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-5">
+        <div class="form-group">
+          <label>Please Select a PostModel Category</label>
+          <select class="form-control" formControlName="category">
+            <option value="" disabled></option>
+            <option *ngFor="let category of categories" value="{{category.id}}-{{category.name}}">{{ category.name }}
+            </option>
+          </select>
+          <div *ngIf="formControl['category'].errors?.['required'] && formControl['category'].touched">
+            <div class="alert alert-danger">
+              Category is required
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>PostModel Image</label>
+          <img [src]="imgSrc" class="form-control img-fluid img-preview img-size" alt="">
+          <input type="file" class="form-control" accept="image/*" (change)="showPreview($event)"
+                 formControlName="postImg">
+          <div *ngIf="formControl['postImg'].errors?.['required'] && formControl['postImg'].touched">
+            <div class="alert alert-danger">
+              Photo is required
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-3 mb-5">
+      <div class="col-md-12">
+        <div class="card card-shadow">
+          <div class="card-body">
+            <div class="form-group">
+              <label>Content</label>
+              <angular-editor placeholder="Add Your Content Here" formControlName="content"></angular-editor>
+              <div *ngIf="formControl['content'].errors?.['required'] && formControl['content'].touched">
+                <div class="alert alert-danger">
+                  Content of the PostModel is required.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 text-center mb-5">
+        <button class="btn btn-info bg-theme" (click)="savePost()">Save PostModel</button>
+        <button class="btn btn-warning ml-3" routerLink="/posts">Go Back</button>
+      </div>
+    </div>
+  </form>
+</div>
