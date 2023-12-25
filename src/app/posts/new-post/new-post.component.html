@@ -1,11 +1,11 @@
 <div class="container">
   <div class="row">
     <div class="col-md-12 text-center">
-      <h3 class="text-theme-primary">Add New PostModel</h3>
-      <p class="mb-5">You Can Add Your PostModel Here</p>
+      <h3 class="text-theme-primary">Add New Post</h3>
+      <p class="mb-5">You Can Add Your Post Here</p>
     </div>
   </div>
-  <form [formGroup]="postForm">
+  <form [formGroup]="postForm" enctype="multipart/form-data">
     <div class="row">
       <div class="col-md-7">
         <div class="card card-shadow">
@@ -60,11 +60,10 @@
       </div>
       <div class="col-md-5">
         <div class="form-group">
-          <label>Please Select a PostModel Category</label>
+          <label>Please Select a Post Category</label>
           <select class="form-control" formControlName="category">
             <option value="" disabled></option>
-            <option *ngFor="let category of categories" value="{{category.id}}-{{category.name}}">{{ category.name }}
-            </option>
+            <option *ngFor="let category of categories" value="{{category.id}}-{{ category.name }}">{{ category.name }}</option>
           </select>
           <div *ngIf="formControl['category'].errors?.['required'] && formControl['category'].touched">
             <div class="alert alert-danger">
@@ -73,8 +72,9 @@
           </div>
         </div>
         <div class="form-group">
-          <label>PostModel Image</label>
-          <img [src]="imgSrc" class="form-control img-fluid img-preview img-size" alt="">
+          <label>Post Image</label>
+          <img *ngIf="imgUrl" [src]="post?.imageUrl" class="form-control img-fluid img-preview img-size" alt="Image">
+          <img *ngIf="!imgUrl" [src]="imgSrc" class="form-control img-fluid img-preview img-size" alt="">
           <input type="file" class="form-control" accept="image/*" (change)="showPreview($event)"
                  formControlName="postImg">
           <div *ngIf="formControl['postImg'].errors?.['required'] && formControl['postImg'].touched">
@@ -94,7 +94,7 @@
               <angular-editor placeholder="Add Your Content Here" formControlName="content"></angular-editor>
               <div *ngIf="formControl['content'].errors?.['required'] && formControl['content'].touched">
                 <div class="alert alert-danger">
-                  Content of the PostModel is required.
+                  Content of the Post is required.
                 </div>
               </div>
             </div>
@@ -102,7 +102,8 @@
         </div>
       </div>
       <div class="col-md-12 text-center mb-5">
-        <button class="btn btn-info bg-theme" (click)="savePost()">Save PostModel</button>
+        <button *ngIf="!post?.id" class="btn btn-info bg-theme text-white" (click)="savePost()">Save Post</button>
+        <button *ngIf="post?.id" class="btn btn-info bg-theme" (click)="editPost()">Edit Post</button>
         <button class="btn btn-warning ml-3" routerLink="/posts">Go Back</button>
       </div>
     </div>

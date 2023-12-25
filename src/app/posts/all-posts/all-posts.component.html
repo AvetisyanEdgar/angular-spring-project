@@ -9,4 +9,40 @@
       </div>
     </div>
   </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card card-shadow">
+        <div class="card-body">
+          <table class="table row-border hover">
+            <thead>
+            <tr>
+              <th>No.</th>
+              <th>Post Image</th>
+              <th>Title</th>
+              <th>Excerpt</th>
+              <th>Category</th>
+              <th>Date</th>
+              <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let post of posts; let i = index">
+              <td [width]="10">{{ i + 1 }}</td>
+              <td [width]="200">
+                <img *ngIf="post.imageUrl" [src]="post.imageUrl" class="img-fluid" alt="Image">
+              </td>
+              <td [width]="200">{{ post.title }}</td>
+              <td [width]="300">{{ post.excerpt }}</td>
+              <td>{{ post.category.name }}</td>
+              <td>{{ post.createdAt | date: 'yyyy/MM/dd' }}</td>
+              <td><button class="btn btn-sm btn-warning" routerLink="/posts/new" [queryParams]="{id: post.id}">Edit</button></td>
+              <td><button class="btn btn-sm btn-warning" (click)="deleteById(post.id)">Delete</button></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
